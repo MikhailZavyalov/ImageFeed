@@ -16,28 +16,17 @@ final class ProfileViewController: UIViewController {
     private let nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = "Natasha"
         nameLabel.textColor = .white
-        nameLabel.font = nameLabel.font.withSize(23)
         return nameLabel
     }()
     
     private let loginLabel: UILabel = {
         let loginLabel = UILabel()
         loginLabel.translatesAutoresizingMaskIntoConstraints = false
-        loginLabel.text = "@ekaterina_nov"
-        loginLabel.textColor = .gray
-        loginLabel.font = loginLabel.font.withSize(13)
+        loginLabel.text = "@natID"
+        loginLabel.textColor = .white
         return loginLabel
-    }()
-    
-    private let descriptionLabel: UILabel = {
-        let descriptionLabel = UILabel()
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.text = "Hello, world!"
-        descriptionLabel.textColor = .white
-        descriptionLabel.font = descriptionLabel.font.withSize(13)
-        return descriptionLabel
     }()
     
     private let logoutButton: UIButton = {
@@ -53,6 +42,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupActions()
         setupConstraints()
+        view.backgroundColor = Colors.backgroundColor
     }
     
     // MARK: - Initial setup
@@ -64,16 +54,12 @@ final class ProfileViewController: UIViewController {
         imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         
         view.addSubview(nameLabel)
-        nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
         
         view.addSubview(loginLabel)
-        loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
+        loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20).isActive = true
         loginLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
-        
-        view.addSubview(descriptionLabel)
-        descriptionLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 8).isActive = true
-        descriptionLabel.leadingAnchor.constraint(equalTo: loginLabel.leadingAnchor).isActive = true
         
         view.addSubview(logoutButton)
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
