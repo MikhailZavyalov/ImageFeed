@@ -7,7 +7,8 @@ class OAuth2Service {
         case unableToDecodeStringFromData
     }
     
-   static func fetchAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
+    static func fetchAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
+        let url = URL(string: "https://unsplash.com/oauth/token")!
         var request = URLRequest(url: url)
         let params: [String: Any] = [
             "client_id": Constants.accessKey,
@@ -54,7 +55,7 @@ class OAuth2Service {
                 return
             }
             DispatchQueue.main.async {
-//                JSONDecoder().decode(OAuthTokenResponseBody.self, from: oAuthToken.data(using: .utf8)!)
+                //                JSONDecoder().decode(OAuthTokenResponseBody.self, from: oAuthToken.data(using: .utf8)!)
                 handler(.success(oAuthToken))
             }
         }

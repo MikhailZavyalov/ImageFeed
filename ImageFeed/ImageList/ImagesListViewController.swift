@@ -8,7 +8,6 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet private var tableView: UITableView!
     
-    
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     
     // MARK: - Lifecycle

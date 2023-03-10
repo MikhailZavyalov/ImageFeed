@@ -86,7 +86,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
-        loginLabel.removeFromSuperview()
+        descriptionLabel.removeFromSuperview()
     }
 }
 

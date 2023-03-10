@@ -5,6 +5,7 @@ final class SingleImageViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool { true }
     
+    // MARK: - Question
     var image: UIImage! {
         didSet {
             guard isViewLoaded else { return }

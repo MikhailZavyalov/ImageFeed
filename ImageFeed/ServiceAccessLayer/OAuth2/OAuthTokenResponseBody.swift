@@ -9,6 +9,5 @@ struct OAuthTokenResponseBody: Decodable {
     let created_at: Int
 }
 
-let url = URL(string: "https://unsplash.com/oauth/token")!
-var request = URLRequest(url: url)
+
 
