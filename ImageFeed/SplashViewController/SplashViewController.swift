@@ -26,7 +26,8 @@ final class SplashViewController: UIViewController {
     
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid Configuration")
+            assert(false)
+            assertionFailure("Invalid Configuration")
         }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
@@ -34,14 +35,15 @@ final class SplashViewController: UIViewController {
     }
 }
 
-// MARK: - Question
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
             guard
                 let navigationController = segue.destination as? UINavigationController,
                 let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
+            else { assert(false)
+                assertionFailure("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)")
+            }
             viewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
@@ -64,6 +66,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success:
                 self.switchToTabBarController()
+                OAuth2TokenStorage.token = code
             case .failure:
                 // TODO [Sprint 11]
                 break

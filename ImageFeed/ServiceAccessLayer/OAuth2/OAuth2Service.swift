@@ -1,7 +1,7 @@
 
 import Foundation
 
-class OAuth2Service {
+final class OAuth2Service {
     private enum NetworkError: Error {
         case codeError
         case unableToDecodeStringFromData
@@ -30,7 +30,7 @@ class OAuth2Service {
             return
         }
         
-        
+        // MARK: - Question
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
