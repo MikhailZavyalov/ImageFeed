@@ -1,7 +1,7 @@
 
 import Foundation
 
-class OAuth2Service {
+final class OAuth2Service {
     private enum NetworkError: Error {
         case codeError
         case unableToDecodeStringFromData

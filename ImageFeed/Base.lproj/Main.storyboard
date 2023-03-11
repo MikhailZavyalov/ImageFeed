@@ -87,7 +87,7 @@
                             <constraint firstItem="KBw-WB-t38" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="tJy-Ji-RgG"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" selectedImage="tab_editorial_active" id="G4b-6D-uyO"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="" image="tab_editorial_active" selectedImage="tab_editorial_active" id="G4b-6D-uyO"/>
                     <navigationItem key="navigationItem" id="EZA-3G-8cz"/>
                     <connections>
                         <outlet property="tableView" destination="KBw-WB-t38" id="zdS-uX-2xA"/>
@@ -108,7 +108,7 @@
                         <viewLayoutGuide key="safeArea" id="6sd-Fj-ttI"/>
                         <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="1" title="" image="tab_profile_active" id="7fa-pc-FaG">
+                    <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="7fa-pc-FaG">
                         <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
                 </viewController>
@@ -130,8 +130,8 @@
                         </tabBarAppearance>
                     </tabBar>
                     <connections>
-                        <segue destination="cuu-Dr-tMf" kind="relationship" relationship="viewControllers" id="a73-Gj-Ufl"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="qyo-9B-EZt"/>
+                        <segue destination="cuu-Dr-tMf" kind="relationship" relationship="viewControllers" id="a73-Gj-Ufl"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EMo-Uf-H7L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

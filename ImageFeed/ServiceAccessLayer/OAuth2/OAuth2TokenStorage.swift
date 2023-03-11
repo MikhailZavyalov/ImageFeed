@@ -1,7 +1,7 @@
 
 import Foundation
 
-class OAuth2TokenStorage {
+final class OAuth2TokenStorage {
    static private let bearerTokenKey = "imageFeedBearerToken"
    static var token: String? {
         get {

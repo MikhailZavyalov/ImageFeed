@@ -5,7 +5,6 @@ final class SingleImageViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool { true }
     
-    // MARK: - Question
     var image: UIImage! {
         didSet {
             guard isViewLoaded else { return }
@@ -14,8 +13,8 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +28,7 @@ final class SingleImageViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func didTapShareButton(_ sender: UIButton) {
+    @IBAction private func didTapShareButton(_ sender: UIButton) {
         let share = UIActivityViewController(
             activityItems: [image],
             applicationActivities: nil
