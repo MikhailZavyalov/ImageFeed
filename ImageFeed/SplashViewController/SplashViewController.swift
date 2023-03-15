@@ -1,7 +1,9 @@
 
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
+    private let oAuth2Service = OAuth2Service()
     private let ShowAuthenticationScreenSegueIdentifier = "AuthenticationScreenSegueIdentifier"
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -54,6 +56,7 @@ extension SplashViewController {
 // MARK: - Question
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        ProgressHUD.show()
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             self.fetchOAuthToken(code)
@@ -61,13 +64,15 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchOAuthToken(_ code: String) {
-        OAuth2Service.fetchAuthToken(code: code) { [weak self] result in
+        oAuth2Service.fetchAuthToken(code: code) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success:
+                ProgressHUD.dismiss()
                 self.switchToTabBarController()
                 OAuth2TokenStorage.token = code
             case .failure:
+                ProgressHUD.dismiss()
                 // TODO [Sprint 11]
                 break
             }
