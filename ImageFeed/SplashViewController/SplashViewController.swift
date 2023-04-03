@@ -5,6 +5,8 @@ import ProgressHUD
 final class SplashViewController: UIViewController {
     private let oAuth2Service = OAuth2Service()
     private let ShowAuthenticationScreenSegueIdentifier = "AuthenticationScreenSegueIdentifier"
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
@@ -13,8 +15,18 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if OAuth2TokenStorage.token != nil {
-            switchToTabBarController()
+        if let token = OAuth2TokenStorage.token {
+            UIBlockingProgressHUD.show()
+            profileService.fetchProfile(token) { [weak self] _ in
+                guard let self else { return }
+                self.profileImageService.fetchProfileImageURL(
+                    token: token,
+                    username: self.profileService.currentProfile!.username
+                ) { _ in
+                    self.switchToTabBarController()
+                    UIBlockingProgressHUD.dismiss()
+                }
+            }
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
         }
@@ -56,7 +68,7 @@ extension SplashViewController {
 // MARK: - Question
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        ProgressHUD.show()
+        UIBlockingProgressHUD.show()
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             self.fetchOAuthToken(code)
@@ -67,12 +79,15 @@ extension SplashViewController: AuthViewControllerDelegate {
         oAuth2Service.fetchAuthToken(code: code) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success:
-                ProgressHUD.dismiss()
-                self.switchToTabBarController()
-                OAuth2TokenStorage.token = code
+            case .success(let token):
+                OAuth2TokenStorage.token = token
+                self.profileService.fetchProfile(token) { _ in
+                    self.switchToTabBarController()
+                    UIBlockingProgressHUD.dismiss()
+                }
             case .failure:
-                ProgressHUD.dismiss()
+                UIBlockingProgressHUD.dismiss()
+
                 // TODO [Sprint 11]
                 break
             }

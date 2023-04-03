@@ -1,5 +1,6 @@
 
 import UIKit
+import ProgressHUD
 
 final class ProfileViewController: UIViewController {
     
@@ -48,11 +49,26 @@ final class ProfileViewController: UIViewController {
         return logoutButton
     }()
     
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupActions()
         setupConstraints()
+        updateProfile()
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: profileImageService.DidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self else { return }
+            self.downloadAndSetAvatar()
+        }
+        downloadAndSetAvatar()
     }
     
     // MARK: - Initial setup
@@ -84,14 +100,26 @@ final class ProfileViewController: UIViewController {
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
     }
     
+    private func updateProfile() {
+        guard let profile = profileService.currentProfile else { return }
+        nameLabel.text = profile.name
+        loginLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+    
+    private func downloadAndSetAvatar() {
+        guard let avatarURL = profileImageService.avatarURL else { return }
+        DispatchQueue.global().async {
+            let imageData = try? Data(contentsOf: avatarURL)
+            let image = UIImage(data: imageData!)
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }
+    }
+    
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
         descriptionLabel.removeFromSuperview()
     }
 }
-///Комментарий для ревьюера
-///Мария Авдеева - моя супруга)). Я пользуюсь ноутбуком, который изначально предназначался для неё, поэтому её ФИО может попадаться.
-///Моя работа может быть похожа на чужую только случайно. Я сам изучаю материал. Разобраться в тех местах, где я встаю в ступор, мне помогает мой друг с опытом программирования, выполняющий роль ментора.
-///Списывать у других не имеет смысла).
-///Спасибо за развернутый ответ по проекту)
-///Когда будет свободное время, я обязательно доберусь до фиксов вёрстки). 

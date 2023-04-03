@@ -2,15 +2,13 @@
 import Foundation
 
 final class OAuth2Service {
-    private enum NetworkError: Error {
+    enum NetworkError: Error {
         case codeError
         case unableToDecodeStringFromData
     }
     
     private var lastCode: String?
-    private var currentTask: URLSessionDataTask?
-    
-    
+    private var currentTask: URLSessionTask?
     
     func fetchAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -21,31 +19,15 @@ final class OAuth2Service {
         
         guard let request = makeRequest(code: code) else { return }
         
-        // MARK: - Question
-        currentTask = URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.currentTask = nil
-                if let error = error {
-                    self.lastCode = nil
-                    handler(.failure(error))
-                    return
-                }
-                
-                if let response = response as? HTTPURLResponse,
-                   response.statusCode < 200 || response.statusCode >= 299 {
-                    handler(.failure(NetworkError.codeError))
-                    return
-                }
-                
-                guard let data = data,
-                      let oAuthToken = String(data: data, encoding: .utf8) else {
-                    handler(.failure(NetworkError.unableToDecodeStringFromData))
-                    return
-                }
-                
-                //                JSONDecoder().decode(OAuthTokenResponseBody.self, from: oAuthToken.data(using: .utf8)!)
-                handler(.success(oAuthToken))
+        let session = URLSession.shared
+        currentTask = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self else { return }
+            self.currentTask = nil
+            switch result {
+            case .success(let oAuthToken):
+                handler(.success(oAuthToken.access_token))
+            case .failure(let error):
+                handler(.failure(error))
             }
         }
         currentTask?.resume()
