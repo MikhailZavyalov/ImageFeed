@@ -4,7 +4,7 @@ import UIKit
 final class ProfileImageService {
     static let shared = ProfileImageService()
     private (set) var avatarURL: URL?
-    private var getProfileImageTask: URLSessionDataTask?
+    private var getProfileImageTask: URLSessionTask?
     private var lastProfileImageCode: String?
     let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
@@ -25,30 +25,12 @@ final class ProfileImageService {
         
         let request = makeProfileImageRequest(username, token)
         
-        getProfileImageTask = URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.getProfileImageTask = nil
-                if let error = error {
-                    self.lastProfileImageCode = nil
-                    completion(.failure(error))
-                    print(error)
-                    return
-                }
-                
-                if let response = response as? HTTPURLResponse,
-                   response.statusCode < 200 || response.statusCode >= 299 {
-                    completion(.failure(GetProfileImageError.profileImageCodeError))
-                    print(response)
-                    return
-                }
-                
-                guard let data = data,
-                      let profileImageURL = try? JSONDecoder().decode(UserResult.self, from: data) else {
-                    completion(.failure(GetProfileImageError.unableToDecodeStringFromProfileImageData))
-                    return
-                }
-                
+        let session = URLSession.shared
+        getProfileImageTask = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            guard let self else { return }
+            self.getProfileImageTask = nil
+            switch result {
+            case .success(let profileImageURL):
                 guard let avatarStringURL = profileImageURL.profile_image["small"],
                       let avatarURL = URL(string: avatarStringURL) else {
                     completion(.failure(GetProfileImageError.noURL))
@@ -56,6 +38,10 @@ final class ProfileImageService {
                 }
                 self.avatarURL = avatarURL
                 completion(.success(avatarURL))
+            case .failure(_):
+                completion(.failure(GetProfileImageError.unableToDecodeStringFromProfileImageData))
+                self.lastProfileImageCode = nil
+                return
             }
         }
         getProfileImageTask?.resume()

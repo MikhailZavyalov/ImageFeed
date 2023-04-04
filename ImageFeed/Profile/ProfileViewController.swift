@@ -1,6 +1,7 @@
 
 import UIKit
 import ProgressHUD
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
@@ -109,13 +110,16 @@ final class ProfileViewController: UIViewController {
     
     private func downloadAndSetAvatar() {
         guard let avatarURL = profileImageService.avatarURL else { return }
-        DispatchQueue.global().async {
-            let imageData = try? Data(contentsOf: avatarURL)
-            let image = UIImage(data: imageData!)
+//        DispatchQueue.global().async {
+//            let imageData = try? Data(contentsOf: avatarURL)
+//            let image = UIImage(data: imageData!)
             DispatchQueue.main.async {
-                self.imageView.image = image
+                let processor = RoundCornerImageProcessor(cornerRadius: 20)
+                self.imageView.kf.indicatorType = .activity
+                self.imageView.kf.setImage(with: avatarURL, options: [.processor(processor)])
+//                self.imageView.image = image
             }
-        }
+//        }
     }
     
     // MARK: - Actions

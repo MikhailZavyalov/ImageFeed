@@ -1,13 +1,14 @@
 
 import UIKit
 
+
 final class ProfileService {
     
     static let shared = ProfileService()
     private(set) var currentProfile: Profile?
     
     private var lastProfileCode: String?
-    private var getProfileTask: URLSessionDataTask?
+    private var getProfileTask: URLSessionTask?
     
     
     private enum GetProfileError: Error {
@@ -31,37 +32,24 @@ final class ProfileService {
         
         let request = makeProfileRequest(token)
         
-        getProfileTask = URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.getProfileTask = nil
-                if let error = error {
-                    self.lastProfileCode = nil
-                    completion(.failure(error))
-                    return
-                }
-                
-                if let response = response as? HTTPURLResponse,
-                   response.statusCode < 200 || response.statusCode >= 299 {
-                    completion(.failure(GetProfileError.profileCodeError))
-                    return
-                }
-                
-                guard let data = data,
-                      let profileResult = try? JSONDecoder().decode(ProfileResult.self, from: data) else {
-                    completion(.failure(GetProfileError.unableToDecodeStringFromProfileData))
-                    return
-                }
-                
-                let profile = Profile(
+        let session = URLSession.shared
+        getProfileTask = session.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            guard let self else { return }
+            self.getProfileTask = nil
+            switch result {
+            case .success(let profileResult):
+               let profile = Profile(
                     username: profileResult.username,
                     name: profileResult.first_name + " " + profileResult.last_name,
                     loginName: "@" + profileResult.username,
                     bio: profileResult.bio ?? ""
                 )
-                
                 self.currentProfile = profile
                 completion(.success(profile))
+            case .failure(_):
+                completion(.failure(GetProfileError.unableToDecodeStringFromProfileData))
+                self.lastProfileCode = nil
+                return
             }
         }
         getProfileTask?.resume()
@@ -74,3 +62,5 @@ final class ProfileService {
         return request
     }
 }
+
+
