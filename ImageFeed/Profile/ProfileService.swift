@@ -10,7 +10,6 @@ final class ProfileService {
     private var lastProfileCode: String?
     private var getProfileTask: URLSessionTask?
     
-    
     private enum GetProfileError: Error {
         case profileCodeError
         case unableToDecodeStringFromProfileData

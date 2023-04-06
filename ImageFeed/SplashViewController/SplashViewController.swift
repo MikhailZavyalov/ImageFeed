@@ -11,7 +11,25 @@ final class SplashViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
-
+    
+    private let splashScreenLogo: UIImageView = {
+        let profileImage = UIImage(named: "splash_screen_logo")
+        let imageView = UIImageView(image: profileImage)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .gray
+        return imageView
+    }()
+    
+    private func setupConstraints() {
+        view.addSubview(splashScreenLogo)
+        splashScreenLogo.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        splashScreenLogo.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        splashScreenLogo.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        splashScreenLogo.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        
+        view.backgroundColor = .black
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -28,7 +46,10 @@ final class SplashViewController: UIViewController {
                 }
             }
         } else {
-            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+            let viewController = AuthViewController()
+            viewController.delegate = self
+            viewController.modalPresentationStyle = .fullScreen
+            viewController.present(viewController, animated: true)
         }
     }
     
@@ -36,6 +57,7 @@ final class SplashViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
+        setupConstraints()
     }
     
     private func switchToTabBarController() {
@@ -46,22 +68,6 @@ final class SplashViewController: UIViewController {
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
-    }
-}
-
-extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else { assert(false)
-                assertionFailure("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)")
-            }
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
     }
 }
 
