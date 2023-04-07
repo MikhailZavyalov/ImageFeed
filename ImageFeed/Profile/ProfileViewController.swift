@@ -4,6 +4,15 @@ import ProgressHUD
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    private enum Const {
+        static let imageViewSide: CGFloat = 70
+        static let imageViewTopOffset: CGFloat = 20
+        static let imageViewLeadingOffset: CGFloat = 20
+        static let nameLabelTopOffset: CGFloat = 8
+        static let loginLabelTopOffset: CGFloat = 8
+        static let descriptionLabelTopOffset: CGFloat = 8
+        static let logoutButtonTrailingOffset: CGFloat = 20
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
     
@@ -75,25 +84,29 @@ final class ProfileViewController: UIViewController {
     // MARK: - Initial setup
     private func setupConstraints() {
         view.addSubview(imageView)
-        imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: Const.imageViewSide).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: Const.imageViewSide).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Const.imageViewTopOffset).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Const.imageViewLeadingOffset).isActive = true
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = Const.imageViewSide * 0.5
+        imageView.contentMode = .scaleAspectFit
+        
         
         view.addSubview(nameLabel)
-        nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Const.nameLabelTopOffset).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
         
         view.addSubview(loginLabel)
-        loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
+        loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: Const.loginLabelTopOffset).isActive = true
         loginLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
         
         view.addSubview(descriptionLabel)
-        descriptionLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 8).isActive = true
+        descriptionLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: Const.descriptionLabelTopOffset).isActive = true
         descriptionLabel.leadingAnchor.constraint(equalTo: loginLabel.leadingAnchor).isActive = true
         
         view.addSubview(logoutButton)
-        logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
+        logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Const.logoutButtonTrailingOffset).isActive = true
         logoutButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
     }
     
@@ -110,16 +123,10 @@ final class ProfileViewController: UIViewController {
     
     private func downloadAndSetAvatar() {
         guard let avatarURL = profileImageService.avatarURL else { return }
-//        DispatchQueue.global().async {
-//            let imageData = try? Data(contentsOf: avatarURL)
-//            let image = UIImage(data: imageData!)
-            DispatchQueue.main.async {
-                let processor = RoundCornerImageProcessor(cornerRadius: 20)
-                self.imageView.kf.indicatorType = .activity
-                self.imageView.kf.setImage(with: avatarURL, options: [.processor(processor)])
-//                self.imageView.image = image
-            }
-//        }
+        DispatchQueue.main.async {
+            self.imageView.kf.indicatorType = .activity
+            self.imageView.kf.setImage(with: avatarURL)
+        }
     }
     
     // MARK: - Actions

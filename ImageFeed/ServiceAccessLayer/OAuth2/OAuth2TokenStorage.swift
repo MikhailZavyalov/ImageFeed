@@ -10,7 +10,7 @@ final class OAuth2TokenStorage {
             return token
         }
         set {
-            let isSuccess = KeychainWrapper.standard.set(newValue!, forKey: OAuth2TokenStorage.bearerTokenKey)
+            KeychainWrapper.standard.set(newValue!, forKey: OAuth2TokenStorage.bearerTokenKey)
         }
     }
 }

@@ -12,14 +12,17 @@ final class ProfileImageService {
     private enum GetProfileImageError: Error {
         case profileImageCodeError
         case unableToDecodeStringFromProfileImageData
-        // TODO: - придумать норм название
         case noURL
     }
     
     struct UserResult: Decodable {
-        let profile_image: [String: String]
+        let profileImage: [String: String]
+        
+        enum CodingKeys: String, CodingKey {
+            case profileImage = "profile_image"
+        }
     }
-    
+
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<URL, Error>) -> Void) {
         assert(Thread.isMainThread)
         
@@ -30,13 +33,14 @@ final class ProfileImageService {
             guard let self else { return }
             self.getProfileImageTask = nil
             switch result {
-            case .success(let profileImageURL):
-                guard let avatarStringURL = profileImageURL.profile_image["small"],
+            case .success(let userResult):
+                guard let avatarStringURL = userResult.profileImage["small"],
                       let avatarURL = URL(string: avatarStringURL) else {
                     completion(.failure(GetProfileImageError.noURL))
                     return
                 }
                 self.avatarURL = avatarURL
+                NotificationCenter.default.post(name: self.DidChangeNotification, object: nil)
                 completion(.success(avatarURL))
             case .failure(_):
                 completion(.failure(GetProfileImageError.unableToDecodeStringFromProfileImageData))
