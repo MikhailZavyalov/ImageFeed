@@ -90,7 +90,7 @@ final class ProfileViewController: UIViewController {
         imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Const.imageViewLeadingOffset).isActive = true
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = Const.imageViewSide * 0.5
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         
         
         view.addSubview(nameLabel)
