@@ -124,21 +124,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOX-JK-9xA">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TOX-JK-9xA">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Rb-9c-DSL">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Rb-9c-DSL">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="961"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="961" id="3iq-Vc-oOK"/>
-                                        </constraints>
                                     </imageView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="1Rb-9c-DSL" firstAttribute="leading" secondItem="TOX-JK-9xA" secondAttribute="leading" id="2aU-ZS-Ayp"/>
                                     <constraint firstAttribute="bottom" secondItem="1Rb-9c-DSL" secondAttribute="bottom" id="6yh-ZK-rUV"/>
                                     <constraint firstAttribute="trailing" secondItem="1Rb-9c-DSL" secondAttribute="trailing" id="8FV-UJ-eKo"/>
-                                    <constraint firstItem="1Rb-9c-DSL" firstAttribute="centerX" secondItem="TOX-JK-9xA" secondAttribute="centerX" id="lJe-VO-Dse"/>
                                     <constraint firstItem="1Rb-9c-DSL" firstAttribute="top" secondItem="TOX-JK-9xA" secondAttribute="top" id="spb-l2-Jn1"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="6Es-r5-tGv"/>

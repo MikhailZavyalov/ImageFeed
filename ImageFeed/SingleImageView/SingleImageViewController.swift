@@ -1,15 +1,16 @@
 
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool { true }
+    private var image: UIImage?
     
-    var image: UIImage! {
+    var imageURL: URL! {
         didSet {
             guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
+            setImage(with: imageURL)
         }
     }
     
@@ -18,10 +19,9 @@ final class SingleImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = image
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        rescaleAndCenterImageInScrollView(image: image)
+        setImage(with: imageURL)
     }
     
     @IBAction private func didTapBackButton(_ sender: Any) {
@@ -29,6 +29,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @IBAction private func didTapShareButton(_ sender: UIButton) {
+        guard let image = image else { return }
         let share = UIActivityViewController(
             activityItems: [image],
             applicationActivities: nil
@@ -36,7 +37,8 @@ final class SingleImageViewController: UIViewController {
         present(share, animated: true, completion: nil)
     }
     
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+    private func rescaleAndCenterImageInScrollView(image: UIImage?) {
+        guard let image = image else { return }
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
@@ -51,6 +53,20 @@ final class SingleImageViewController: UIViewController {
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
+    
+    private func setImage(with imageURL: URL) {
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: imageURL) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let kfImage):
+                self.image = kfImage.image
+                self.rescaleAndCenterImageInScrollView(image: kfImage.image)
+            case .failure:
+                break
+            }
+        }
     }
 } 
 
