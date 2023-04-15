@@ -8,7 +8,7 @@ final class ProfileService {
     private(set) var currentProfile: Profile?
     
     private var lastProfileCode: String?
-    private var getProfileTask: URLSessionTask?
+    private var getProfileTask: URLSessionDataTaskProtocol?
     
     private enum GetProfileError: Error {
         case profileCodeError

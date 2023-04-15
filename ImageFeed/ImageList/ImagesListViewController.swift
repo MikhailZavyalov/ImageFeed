@@ -60,11 +60,11 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        let imageURL = imagesListService.photos[indexPath.row].thumbImageURL
+        let photo = imagesListService.photos[indexPath.row]
+        let imageURL = photo.thumbImageURL
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: imageURL)
-        cell.dateLabel.text = dateFormatter.string(from: Date())
-//        cell.dateLabel.text = dateFormatter.string(from: imagesListService.photos[indexPath.row].createdAt!)
+        cell.dateLabel.text = dateFormatter.string(from: photo.createdAt)
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setImage(likeImage, for: .normal)
@@ -93,9 +93,14 @@ extension ImagesListViewController {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        //        guard indexPath.row + 1 == test.photos.count else { return }
-//        test.fetchPhotosNextPage() { _ in
-//        }
+        print("🌈", indexPath.row)
+        print("🌈", imagesListService.photos.count)
+        print("🌈", OAuth2TokenStorage.token)
+        guard indexPath.row + 1 == imagesListService.photos.count else { return }
+        guard let token = OAuth2TokenStorage.token else { return }
+        imagesListService.fetchPhotosNextPage(token: token) { _ in
+            self.tableView.reloadData()
+        }
     }
 }
 

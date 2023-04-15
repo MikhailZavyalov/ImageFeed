@@ -8,7 +8,7 @@ final class OAuth2Service {
     }
     
     private var lastCode: String?
-    private var currentTask: URLSessionTask?
+    private var currentTask: URLSessionDataTaskProtocol?
     
     func fetchAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)

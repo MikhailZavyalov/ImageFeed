@@ -34,6 +34,9 @@
 		C1CFFE21297D47A3006DDD26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1CFFE1F297D47A3006DDD26 /* Main.storyboard */; };
 		C1CFFE23297D47A3006DDD26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1CFFE22297D47A3006DDD26 /* Assets.xcassets */; };
 		C1CFFE26297D47A3006DDD26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1CFFE24297D47A3006DDD26 /* LaunchScreen.storyboard */; };
+		C1D1EFC829E9B3E50094930A /* URLSessionProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1EFC729E9B3E50094930A /* URLSessionProtocols.swift */; };
+		C1D1EFCA29E9B3F70094930A /* URLSessionMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1EFC929E9B3F70094930A /* URLSessionMocks.swift */; };
+		C1D1EFCD29E9B8C70094930A /* ImageListMock.json in Resources */ = {isa = PBXBuildFile; fileRef = C1D1EFCC29E9B8C70094930A /* ImageListMock.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +66,9 @@
 		C1CFFE22297D47A3006DDD26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C1CFFE25297D47A3006DDD26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C1CFFE27297D47A3006DDD26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C1D1EFC729E9B3E50094930A /* URLSessionProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocols.swift; sourceTree = "<group>"; };
+		C1D1EFC929E9B3F70094930A /* URLSessionMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMocks.swift; sourceTree = "<group>"; };
+		C1D1EFCC29E9B8C70094930A /* ImageListMock.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageListMock.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +96,7 @@
 		C19B4D81297ED3A7004269F8 /* ImageList */ = {
 			isa = PBXGroup;
 			children = (
+				C1D1EFC629E9B3B30094930A /* URLSessionMocks */,
 				C19B4D7F297ED365004269F8 /* ImagesListCell.swift */,
 				C1CFFE1D297D47A3006DDD26 /* ImagesListViewController.swift */,
 				C1B99D0029E1A4A3000C43AD /* ImagesListService.swift */,
@@ -191,12 +198,30 @@
 				C19B4D81297ED3A7004269F8 /* ImageList */,
 				C1B9AFAD2991208E005677FB /* SingleImageView */,
 				C12681F929DB38CD00B4FE3D /* Extentions */,
+				C1D1EFCB29E9B70E0094930A /* Mocks */,
 				C1CFFE1F297D47A3006DDD26 /* Main.storyboard */,
 				C1CFFE22297D47A3006DDD26 /* Assets.xcassets */,
 				C1CFFE24297D47A3006DDD26 /* LaunchScreen.storyboard */,
 				C1CFFE27297D47A3006DDD26 /* Info.plist */,
 			);
 			path = ImageFeed;
+			sourceTree = "<group>";
+		};
+		C1D1EFC629E9B3B30094930A /* URLSessionMocks */ = {
+			isa = PBXGroup;
+			children = (
+				C1D1EFC729E9B3E50094930A /* URLSessionProtocols.swift */,
+				C1D1EFC929E9B3F70094930A /* URLSessionMocks.swift */,
+			);
+			path = URLSessionMocks;
+			sourceTree = "<group>";
+		};
+		C1D1EFCB29E9B70E0094930A /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				C1D1EFCC29E9B8C70094930A /* ImageListMock.json */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,6 +295,7 @@
 				C1CFFE26297D47A3006DDD26 /* LaunchScreen.storyboard in Resources */,
 				C1CFFE23297D47A3006DDD26 /* Assets.xcassets in Resources */,
 				C1CFFE21297D47A3006DDD26 /* Main.storyboard in Resources */,
+				C1D1EFCD29E9B8C70094930A /* ImageListMock.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +316,7 @@
 				C125EBCD298BDE6D007E4CF8 /* ProfileViewController.swift in Sources */,
 				C1BE5CF629D0742C00802A0F /* ProfileImageService.swift in Sources */,
 				C1A7B5A829AD3D440079FA9C /* OAuth2Service.swift in Sources */,
+				C1D1EFCA29E9B3F70094930A /* URLSessionMocks.swift in Sources */,
 				C1B5F6DF29B0FC00005311CD /* SplashViewController.swift in Sources */,
 				C1C83D6329AA35A700E2CC99 /* OAuthTokenResponseBody.swift in Sources */,
 				C1B6464129DF067F007DF0AA /* TabBarController.swift in Sources */,
@@ -298,6 +325,7 @@
 				C1CFFE1A297D47A3006DDD26 /* AppDelegate.swift in Sources */,
 				C11B8B5E29A504E400D9BDAA /* WebViewViewController.swift in Sources */,
 				C1CFFE1C297D47A3006DDD26 /* SceneDelegate.swift in Sources */,
+				C1D1EFC829E9B3E50094930A /* URLSessionProtocols.swift in Sources */,
 				C12681FB29DB394B00B4FE3D /* URLSession+Extentions.swift in Sources */,
 				C1A23D0A29C484FA00AAFAC6 /* UIBlockingProgressHUD.swift in Sources */,
 				C1A23D0C29C4877300AAFAC6 /* ProfileService.swift in Sources */,
