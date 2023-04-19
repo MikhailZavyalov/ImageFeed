@@ -93,14 +93,32 @@ extension ImagesListViewController {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        print("🌈", indexPath.row)
-        print("🌈", imagesListService.photos.count)
-        print("🌈", OAuth2TokenStorage.token)
+        print("🌈", "indexPath.row", indexPath.row)
+        print("🌈", "imagesListService.photos.count", imagesListService.photos.count)
+        print("🌈", "OAuth2TokenStorage.token", OAuth2TokenStorage.token)
         guard indexPath.row + 1 == imagesListService.photos.count else { return }
         guard let token = OAuth2TokenStorage.token else { return }
-        imagesListService.fetchPhotosNextPage(token: token) { _ in
-            self.tableView.reloadData()
+        let oldPhotosCount = imagesListService.photos.count
+        
+        imagesListService.fetchPhotosNextPage(token: token) { result in
+            switch result {
+            case .success(let photos):
+                guard !photos.isEmpty else {
+                    return
+                }
+                let newPhotosCount = oldPhotosCount + photos.count
+                
+                var newIndexes: [IndexPath] = []
+                for i in oldPhotosCount..<newPhotosCount {
+                    newIndexes.append(IndexPath(row: i, section: 0))
+                }
+
+                tableView.performBatchUpdates {
+                    tableView.insertRows(at: newIndexes, with: .automatic)
+                } completion: { _ in }
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }
-

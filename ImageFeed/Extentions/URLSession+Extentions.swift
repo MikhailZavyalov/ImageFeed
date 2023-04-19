@@ -1,8 +1,8 @@
 
 import Foundation
+import UIKit
 
 extension URLSessionProtocol {
-    
     
     func objectTask<T: Decodable>(
         for request: URLRequest,
@@ -26,8 +26,11 @@ extension URLSessionProtocol {
         }
         
         let task = dataTask(with: request, completionHandler: { data, response, error in
-            if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                if 200 ..< 300 ~= statusCode {
+            if let data = data, let response = (response as? HTTPURLResponse) {
+                if 200 ..< 300 ~= response.statusCode {
+                    if let remaining = response.value(forHTTPHeaderField: "X-Ratelimit-Remaining").flatMap({ Int($0) }) {
+                        print("❗️осталось запросов: ", remaining)
+                    }
                     do {
                         let decoder = JSONDecoder()
                         let result = try decoder.decode(T.self, from: data)
