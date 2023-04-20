@@ -65,9 +65,20 @@ extension ImagesListViewController {
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: imageURL)
         cell.dateLabel.text = dateFormatter.string(from: photo.createdAt)
-        let isLiked = indexPath.row % 2 == 0
-        let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
+        let likeImage = photo.isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setImage(likeImage, for: .normal)
+        cell.onLikeButtonTapped = { [self] in
+            guard let token = OAuth2TokenStorage.token else { return }
+            imagesListService.changeLike(token: token, photo: photo) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success:
+                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                case .failure:
+                    break
+                }
+            }
+        }
     }
 }
 
@@ -93,9 +104,6 @@ extension ImagesListViewController {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        print("🌈", "indexPath.row", indexPath.row)
-        print("🌈", "imagesListService.photos.count", imagesListService.photos.count)
-        print("🌈", "OAuth2TokenStorage.token", OAuth2TokenStorage.token)
         guard indexPath.row + 1 == imagesListService.photos.count else { return }
         guard let token = OAuth2TokenStorage.token else { return }
         let oldPhotosCount = imagesListService.photos.count
