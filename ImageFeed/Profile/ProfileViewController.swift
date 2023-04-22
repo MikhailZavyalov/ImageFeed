@@ -2,8 +2,10 @@
 import UIKit
 import ProgressHUD
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
+    
     private enum Const {
         static let imageViewSide: CGFloat = 70
         static let imageViewTopOffset: CGFloat = 20
@@ -131,6 +133,22 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
-        descriptionLabel.removeFromSuperview()
+        OAuth2TokenStorage.token = nil
+        clean()
+        let splashViewController = SplashViewController()
+        splashViewController.modalPresentationStyle = .fullScreen
+        present(splashViewController, animated: true)
+    }
+    
+    private func clean() {
+       // Очищаем все куки из хранилища.
+       HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+       // Запрашиваем все данные из локального хранилища.
+       WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+          // Массив полученных записей удаляем из хранилища.
+          records.forEach { record in
+             WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+          }
+       }
     }
 }

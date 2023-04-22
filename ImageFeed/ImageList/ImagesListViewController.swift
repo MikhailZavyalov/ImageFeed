@@ -69,10 +69,12 @@ extension ImagesListViewController {
         cell.likeButton.setImage(likeImage, for: .normal)
         cell.onLikeButtonTapped = { [self] in
             guard let token = OAuth2TokenStorage.token else { return }
+            UIBlockingProgressHUD.show()
             imagesListService.changeLike(token: token, photo: photo) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success:
+                    UIBlockingProgressHUD.dismiss()
                     self.tableView.reloadRows(at: [indexPath], with: .fade)
                 case .failure:
                     break

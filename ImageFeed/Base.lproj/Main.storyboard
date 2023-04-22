@@ -193,7 +193,7 @@
         <!--AuthViewController-->
         <scene sceneID="Tfb-Xr-UU6">
             <objects>
-                <viewController storyboardIdentifier="AuthViewController" id="HvG-a9-d3V" userLabel="AuthViewController" customClass="AuthViewController" customModule="ImageFeed" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HvG-a9-d3V" userLabel="AuthViewController" customClass="AuthViewController" customModule="ImageFeed" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rWi-dQ-2C5">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -301,7 +301,7 @@
         <!--Navigation Controller-->
         <scene sceneID="aPq-5V-mKY">
             <objects>
-                <navigationController storyboardIdentifier="NavigationController" automaticallyAdjustsScrollViewInsets="NO" id="EP2-Mw-Ali" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EP2-Mw-Ali" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="BCS-O2-VTv"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uSO-hC-sGV">

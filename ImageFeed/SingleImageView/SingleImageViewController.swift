@@ -57,10 +57,12 @@ final class SingleImageViewController: UIViewController {
     
     private func setImage(with imageURL: URL) {
         imageView.kf.indicatorType = .activity
+        UIBlockingProgressHUD.show()
         imageView.kf.setImage(with: imageURL) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let kfImage):
+                UIBlockingProgressHUD.dismiss()
                 self.image = kfImage.image
                 self.rescaleAndCenterImageInScrollView(image: kfImage.image)
             case .failure:
