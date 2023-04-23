@@ -46,7 +46,7 @@ final class ImagesListService {
                 if photosResult.isEmpty {
                     self.isReachedTheEnd = true
                 }
-            case .failure(let error):
+            case .failure:
                 completion(.failure(GetImagesListError.unableToDecodeStringFromImagesData))
                 return
             }

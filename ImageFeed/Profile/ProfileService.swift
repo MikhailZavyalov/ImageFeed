@@ -1,7 +1,6 @@
 
 import UIKit
 
-
 final class ProfileService {
     
     static let shared = ProfileService()
@@ -61,5 +60,3 @@ final class ProfileService {
         return request
     }
 }
-
-

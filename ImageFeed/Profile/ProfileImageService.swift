@@ -8,7 +8,6 @@ final class ProfileImageService {
     private var lastProfileImageCode: String?
     let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
-    
     private enum GetProfileImageError: Error {
         case profileImageCodeError
         case unableToDecodeStringFromProfileImageData

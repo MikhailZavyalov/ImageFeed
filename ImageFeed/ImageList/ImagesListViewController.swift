@@ -7,7 +7,6 @@ final class ImagesListViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
     let imagesListService = ImagesListService()
     
-    
     // MARK: - Outlets
     @IBOutlet private var tableView: UITableView!
     

@@ -75,5 +75,4 @@ extension WebViewViewController: WKNavigationDelegate {
             return nil
         }
     }
-    
 }

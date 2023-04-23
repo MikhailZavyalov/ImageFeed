@@ -8,6 +8,3 @@ struct OAuthTokenResponseBody: Decodable {
     let scope: String
     let created_at: Int
 }
-
-
-

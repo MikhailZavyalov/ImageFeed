@@ -15,7 +15,6 @@ final class ImagesListCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         onLikeButtonTapped = nil
-        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
         cellImage.kf.cancelDownloadTask()
     }
 }

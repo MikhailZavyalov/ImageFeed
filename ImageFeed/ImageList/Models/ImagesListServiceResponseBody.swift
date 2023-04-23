@@ -1,7 +1,5 @@
 
 import Foundation
-// MARK: - раскоментить закоменченное и сделать чтобы всё парсилось
-// MARK: - разобраться с objectTaskArray
 
 // MARK: - ImagesListResultElement
 struct ImagesListResultElement: Codable {
@@ -45,6 +43,4 @@ struct ImagesListResultElement: Codable {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         createdAt = dateFormatter.date(from:createdAtString)!
     }
-    
-    
 }
