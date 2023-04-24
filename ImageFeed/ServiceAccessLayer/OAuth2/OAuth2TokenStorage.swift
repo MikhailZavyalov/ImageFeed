@@ -2,19 +2,24 @@
 import Foundation
 import SwiftKeychainWrapper
 
-final class OAuth2TokenStorage {
-    static private let bearerTokenKey = "imageFeedBearerToken"
-    static var token: String? {
+protocol OAuth2TokenStorageProtocol {
+    var token: String? { get set }
+}
+
+final class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
+    private let bearerTokenKey = "imageFeedBearerToken"
+    static let standard = OAuth2TokenStorage()
+    var token: String? {
         get {
-            let token: String? = KeychainWrapper.standard.string(forKey: OAuth2TokenStorage.bearerTokenKey)
+            let token: String? = KeychainWrapper.standard.string(forKey: bearerTokenKey)
             return token
         }
         set {
             guard let newValue = newValue else {
-                KeychainWrapper.standard.removeObject(forKey: OAuth2TokenStorage.bearerTokenKey)
+                KeychainWrapper.standard.removeObject(forKey: bearerTokenKey)
                 return
             }
-            KeychainWrapper.standard.set(newValue, forKey: OAuth2TokenStorage.bearerTokenKey)
+            KeychainWrapper.standard.set(newValue, forKey: bearerTokenKey)
         }
     }
 }

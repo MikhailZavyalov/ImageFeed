@@ -4,9 +4,11 @@ import ProgressHUD
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
-    var animationLayers = Set<CALayer>()
-    
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     private enum Const {
         static let imageViewSide: CGFloat = 70
         static let imageViewTopOffset: CGFloat = 20
@@ -16,6 +18,9 @@ final class ProfileViewController: UIViewController {
         static let descriptionLabelTopOffset: CGFloat = 8
         static let logoutButtonTrailingOffset: CGFloat = 20
     }
+    
+    var animationLayers = Set<CALayer>()
+    var presenter: ProfilePresenterProtocol?
     
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
     
@@ -144,12 +149,12 @@ final class ProfileViewController: UIViewController {
         }
         let uiAlertOkAction = UIAlertAction(title: "Да", style: .destructive) { [weak self] _ in
             guard let self = self else { return }
-            OAuth2TokenStorage.token = nil
-            self.clean()
-            let splashViewController = SplashViewController()
-            splashViewController.modalPresentationStyle = .fullScreen
-            self.present(splashViewController, animated: true)
-            alert.dismiss(animated: true)
+            self.presenter?.logout()
+            alert.dismiss(animated: true) {
+                let splashViewController = SplashViewController()
+                splashViewController.modalPresentationStyle = .fullScreen
+                self.present(splashViewController, animated: true)
+            }
         }
         alert.addAction(uiAlertOkAction)
         alert.addAction(uiAlertNoAction)
@@ -159,15 +164,6 @@ final class ProfileViewController: UIViewController {
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
         showEscapeAlert()
-    }
-    
-    private func clean() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-            records.forEach { record in
-                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-            }
-        }
     }
     
     private func addAnimateGradientTo(view: UIView, frame: CGRect, cornerRadius: CGFloat) {

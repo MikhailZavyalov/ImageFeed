@@ -13,7 +13,7 @@ final class ImagesListServiceTests: XCTestCase {
             queue: .main) { _ in
                 expectation.fulfill()
             }
-        guard let token = OAuth2TokenStorage.token else { return }
+        guard let token = OAuth2TokenStorage.standard.token else { return }
         service.fetchPhotosNextPage(token: token) { _ in
         }
         wait(for: [expectation], timeout: 10)

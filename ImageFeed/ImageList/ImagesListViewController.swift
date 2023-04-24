@@ -14,7 +14,7 @@ final class ImagesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        guard let token = OAuth2TokenStorage.token else { return }
+        guard let token = OAuth2TokenStorage.standard.token else { return }
         imagesListService.fetchPhotosNextPage(token: token) { [weak self] _ in
             self?.tableView.reloadData()
         }
@@ -67,7 +67,7 @@ extension ImagesListViewController {
         let likeImage = photo.isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setImage(likeImage, for: .normal)
         cell.onLikeButtonTapped = { [self] in
-            guard let token = OAuth2TokenStorage.token else { return }
+            guard let token = OAuth2TokenStorage.standard.token else { return }
             UIBlockingProgressHUD.show()
             imagesListService.changeLike(token: token, photo: photo) { [weak self] result in
                 guard let self = self else { return }
@@ -106,7 +106,7 @@ extension ImagesListViewController {
         forRowAt indexPath: IndexPath
     ) {
         guard indexPath.row + 1 == imagesListService.photos.count else { return }
-        guard let token = OAuth2TokenStorage.token else { return }
+        guard let token = OAuth2TokenStorage.standard.token else { return }
         let oldPhotosCount = imagesListService.photos.count
         
         imagesListService.fetchPhotosNextPage(token: token) { result in
