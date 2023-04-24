@@ -182,6 +182,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Wmw-eO-B2T"/>
                     <connections>
+                        <outlet property="backButton" destination="AZ5-pL-3fS" id="Xan-dA-lq2"/>
                         <outlet property="imageView" destination="1Rb-9c-DSL" id="DTt-Wh-1dm"/>
                         <outlet property="scrollView" destination="TOX-JK-9xA" id="WHy-dn-mc5"/>
                     </connections>
@@ -241,6 +242,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="s1o-a4-ehw"/>
+                    <connections>
+                        <outlet property="authButton" destination="kia-NG-8ZS" id="Jai-2t-bWZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Eq-gX-aod" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

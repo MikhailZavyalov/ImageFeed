@@ -58,6 +58,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     
     private let logoutButton: UIButton = {
         let logoutButton = UIButton()
+        logoutButton.accessibilityIdentifier = AccessibilityIdentifiers.ProfileView.logoutButton
         logoutButton.setImage(UIImage(named: "logoutButton"), for: .normal)
         logoutButton.tintColor = .red
         logoutButton.translatesAutoresizingMaskIntoConstraints = false

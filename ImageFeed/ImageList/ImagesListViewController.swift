@@ -59,6 +59,7 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        cell.likeButton.accessibilityIdentifier = AccessibilityIdentifiers.ImageList.likeButton
         let photo = imagesListService.photos[indexPath.row]
         let imageURL = photo.thumbImageURL
         cell.cellImage.kf.indicatorType = .activity
