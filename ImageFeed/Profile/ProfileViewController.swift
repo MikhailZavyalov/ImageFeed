@@ -129,8 +129,9 @@ final class ProfileViewController: UIViewController {
         
         guard let avatarURL = profileImageService.avatarURL else { return }
         
-        self.imageView.kf.indicatorType = .activity
-        self.imageView.kf.setImage(with: avatarURL) { _ in
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: avatarURL) { [weak self] _ in
+            guard let self = self else { return }
             self.animationLayers.forEach { $0.removeFromSuperlayer() }
             self.animationLayers.removeAll()
         }

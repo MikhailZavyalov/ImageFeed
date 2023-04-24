@@ -38,9 +38,7 @@ struct ImagesListResultElement: Codable {
         
         let createdAtString = try container.decode(String.self, forKey: .createdAt)
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let dateFormatter = ISO8601DateFormatter()
         createdAt = dateFormatter.date(from:createdAtString)!
     }
 }

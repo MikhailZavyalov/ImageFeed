@@ -6,19 +6,11 @@ final class ImagesListViewController: UIViewController {
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
     let imagesListService = ImagesListService()
+    var oldPhotosCount = 0
+    private var imageListServiceObserver: NSObjectProtocol?
     
     // MARK: - Outlets
-    @IBOutlet private var tableView: UITableView!
-    
-    // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        guard let token = OAuth2TokenStorage.token else { return }
-        imagesListService.fetchPhotosNextPage(token: token) { _ in
-            self.tableView.reloadData()
-        }
-    }
+    @IBOutlet private weak var tableView: UITableView!
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -26,6 +18,22 @@ final class ImagesListViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
+    
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        guard let token = OAuth2TokenStorage.token else { return }
+        imagesListService.fetchPhotosNextPage(token: token)
+        imageListServiceObserver = NotificationCenter.default.addObserver(
+            forName: imagesListService.DidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self else { return }
+            self.updateTableViewAnimated()
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showSingleImageSegueIdentifier {
@@ -35,6 +43,19 @@ final class ImagesListViewController: UIViewController {
         } else {
             super.prepare(for: segue, sender: sender)
         }
+    }
+    
+    private func updateTableViewAnimated() {
+        let newPhotosCount = imagesListService.photos.count
+        var newIndexes: [IndexPath] = []
+        for i in oldPhotosCount..<newPhotosCount {
+            newIndexes.append(IndexPath(row: i, section: 0))
+        }
+        
+        oldPhotosCount = newPhotosCount
+        tableView.performBatchUpdates {
+            tableView.insertRows(at: newIndexes, with: .automatic)
+        } completion: { _ in }
     }
 }
 
@@ -107,27 +128,7 @@ extension ImagesListViewController {
     ) {
         guard indexPath.row + 1 == imagesListService.photos.count else { return }
         guard let token = OAuth2TokenStorage.token else { return }
-        let oldPhotosCount = imagesListService.photos.count
         
-        imagesListService.fetchPhotosNextPage(token: token) { result in
-            switch result {
-            case .success(let photos):
-                guard !photos.isEmpty else {
-                    return
-                }
-                let newPhotosCount = oldPhotosCount + photos.count
-                
-                var newIndexes: [IndexPath] = []
-                for i in oldPhotosCount..<newPhotosCount {
-                    newIndexes.append(IndexPath(row: i, section: 0))
-                }
-
-                tableView.performBatchUpdates {
-                    tableView.insertRows(at: newIndexes, with: .automatic)
-                } completion: { _ in }
-            case .failure(let error):
-                print(error)
-            }
-        }
+        imagesListService.fetchPhotosNextPage(token: token)
     }
 }

@@ -1,7 +1,7 @@
 
 import UIKit
 
-private let useMockData = false
+private let useMockData = true
 
 final class ImagesListService {
     let DidChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
@@ -19,10 +19,11 @@ final class ImagesListService {
         case noURL
     }
     
-    func fetchPhotosNextPage(token: String, _ completion: @escaping (Result<[Photo], Error>) -> Void) {
+    func fetchPhotosNextPage(token: String, _ completion: ((Result<[Photo], Error>) -> Void)? = nil) {
         assert(Thread.isMainThread)
         guard !isReachedTheEnd else {
-            return completion(.success([]))
+            completion?(.success([]))
+            return
         }
         
         let nextPage = lastLoadedPage == nil
@@ -42,12 +43,12 @@ final class ImagesListService {
                 self.photos += photosPage
                 self.lastLoadedPage = nextPage
                 NotificationCenter.default.post(name: self.DidChangeNotification, object: nil)
-                completion(.success(photosPage))
+                completion?(.success(photosPage))
                 if photosResult.isEmpty {
                     self.isReachedTheEnd = true
                 }
             case .failure:
-                completion(.failure(GetImagesListError.unableToDecodeStringFromImagesData))
+                completion?(.failure(GetImagesListError.unableToDecodeStringFromImagesData))
                 return
             }
         }
