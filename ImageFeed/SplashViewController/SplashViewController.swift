@@ -35,14 +35,19 @@ final class SplashViewController: UIViewController {
         
         if let token = OAuth2TokenStorage.token {
             UIBlockingProgressHUD.show()
-            profileService.fetchProfile(token) { [weak self] _ in
+            profileService.fetchProfile(token) { [weak self] result in
                 guard let self else { return }
-                self.profileImageService.fetchProfileImageURL(
-                    token: token,
-                    username: self.profileService.currentProfile!.username
-                ) { _ in
-                    self.switchToTabBarController()
-                    UIBlockingProgressHUD.dismiss()
+                switch result {
+                case .success(let profile):
+                    self.profileImageService.fetchProfileImageURL(
+                        token: token,
+                        username: profile.username
+                    ) { _ in
+                        self.switchToTabBarController()
+                        UIBlockingProgressHUD.dismiss()
+                    }
+                case .failure(let error):
+                    self.showAlert(title: "Error", message: error.localizedDescription)
                 }
             }
         } else {
