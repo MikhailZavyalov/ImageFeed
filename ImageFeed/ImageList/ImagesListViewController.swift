@@ -8,15 +8,15 @@ final class ImagesListViewController: UIViewController {
     let imagesListService = ImagesListService()
     
     // MARK: - Outlets
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         guard let token = OAuth2TokenStorage.token else { return }
-        imagesListService.fetchPhotosNextPage(token: token) { _ in
-            self.tableView.reloadData()
+        imagesListService.fetchPhotosNextPage(token: token) { [weak self] _ in
+            self?.tableView.reloadData()
         }
     }
     

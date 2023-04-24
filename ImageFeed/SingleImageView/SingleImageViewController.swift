@@ -14,7 +14,7 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
-    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
@@ -60,9 +60,9 @@ final class SingleImageViewController: UIViewController {
         UIBlockingProgressHUD.show()
         imageView.kf.setImage(with: imageURL) { [weak self] result in
             guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let kfImage):
-                UIBlockingProgressHUD.dismiss()
                 self.image = kfImage.image
                 self.rescaleAndCenterImageInScrollView(image: kfImage.image)
             case .failure:
