@@ -54,7 +54,7 @@ final class ProfileService {
     }
     
     private func makeProfileRequest(_ token: String) -> URLRequest {
-        var request = URLRequest(url: Constants.defaultBaseURL.appendingPathComponent("me"))
+        var request = URLRequest(url: AuthConfiguration.standard.defaultBaseURL.appendingPathComponent("me"))
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         return request
