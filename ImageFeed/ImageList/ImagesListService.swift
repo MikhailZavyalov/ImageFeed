@@ -1,7 +1,7 @@
 
 import UIKit
 
-private let useMockData = false
+private let useMockData = true
 
 final class ImagesListService {
     let DidChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
