@@ -13,6 +13,9 @@
 		C12681FB29DB394B00B4FE3D /* URLSession+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12681FA29DB394B00B4FE3D /* URLSession+Extentions.swift */; };
 		C129BD8829F6C5BF0015D73A /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C129BD8729F6C5BF0015D73A /* WebViewPresenter.swift */; };
 		C129BD8A29F6CCA70015D73A /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C129BD8929F6CCA70015D73A /* AuthHelper.swift */; };
+		C129BD8C29F6CFFA0015D73A /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C129BD8B29F6CFFA0015D73A /* WebViewTests.swift */; };
+		C129BD8F29F6D07D0015D73A /* WebViewPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C129BD8E29F6D07D0015D73A /* WebViewPresenterSpy.swift */; };
+		C129BD9129F6D1A40015D73A /* WebViewViewControllerFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = C129BD9029F6D1A40015D73A /* WebViewViewControllerFake.swift */; };
 		C129BDAC29F6F4F20015D73A /* ProgressHUD+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C129BDAB29F6F4F20015D73A /* ProgressHUD+Extentions.swift */; };
 		C19B4D80297ED365004269F8 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19B4D7F297ED365004269F8 /* ImagesListCell.swift */; };
 		C1A0AE3629F1A2F100987850 /* ImagesListServicePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A0AE3529F1A2F100987850 /* ImagesListServicePhoto.swift */; };
@@ -64,6 +67,9 @@
 		C12681FA29DB394B00B4FE3D /* URLSession+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extentions.swift"; sourceTree = "<group>"; };
 		C129BD8729F6C5BF0015D73A /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		C129BD8929F6CCA70015D73A /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
+		C129BD8B29F6CFFA0015D73A /* WebViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
+		C129BD8E29F6D07D0015D73A /* WebViewPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenterSpy.swift; sourceTree = "<group>"; };
+		C129BD9029F6D1A40015D73A /* WebViewViewControllerFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerFake.swift; sourceTree = "<group>"; };
 		C129BDAB29F6F4F20015D73A /* ProgressHUD+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProgressHUD+Extentions.swift"; sourceTree = "<group>"; };
 		C19B4D7F297ED365004269F8 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		C1A0AE3529F1A2F100987850 /* ImagesListServicePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListServicePhoto.swift; sourceTree = "<group>"; };
@@ -128,6 +134,16 @@
 				C129BDAB29F6F4F20015D73A /* ProgressHUD+Extentions.swift */,
 			);
 			path = Extentions;
+			sourceTree = "<group>";
+		};
+		C129BD8D29F6D0630015D73A /* WebViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				C129BD8B29F6CFFA0015D73A /* WebViewTests.swift */,
+				C129BD9029F6D1A40015D73A /* WebViewViewControllerFake.swift */,
+				C129BD8E29F6D07D0015D73A /* WebViewPresenterSpy.swift */,
+			);
+			path = WebViewTests;
 			sourceTree = "<group>";
 		};
 		C19B4D81297ED3A7004269F8 /* ImageList */ = {
@@ -219,6 +235,7 @@
 		C1C83CC329EAD179001636CF /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				C129BD8D29F6D0630015D73A /* WebViewTests */,
 				C1C83CC429EAD179001636CF /* ImagesListServiceTests.swift */,
 			);
 			path = ImageFeedTests;
@@ -397,6 +414,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1C83CC529EAD179001636CF /* ImagesListServiceTests.swift in Sources */,
+				C129BD9129F6D1A40015D73A /* WebViewViewControllerFake.swift in Sources */,
+				C129BD8C29F6CFFA0015D73A /* WebViewTests.swift in Sources */,
+				C129BD8F29F6D07D0015D73A /* WebViewPresenterSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
