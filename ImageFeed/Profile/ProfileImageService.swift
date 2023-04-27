@@ -4,10 +4,9 @@ import UIKit
 final class ProfileImageService {
     static let shared = ProfileImageService()
     private (set) var avatarURL: URL?
-    private var getProfileImageTask: URLSessionTask?
+    private var getProfileImageTask: URLSessionDataTaskProtocol?
     private var lastProfileImageCode: String?
     let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
-    
     
     private enum GetProfileImageError: Error {
         case profileImageCodeError
@@ -52,7 +51,7 @@ final class ProfileImageService {
     }
     
     private func makeProfileImageRequest(_ username: String, _ token: String) -> URLRequest {
-        var request = URLRequest(url: Constants.defaultBaseURL.appendingPathComponent("users/\(username)"))
+        var request = URLRequest(url: AuthConfiguration.standard.defaultBaseURL.appendingPathComponent("users/\(username)"))
         request.setValue("Bearer \(String(describing: token))", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         return request

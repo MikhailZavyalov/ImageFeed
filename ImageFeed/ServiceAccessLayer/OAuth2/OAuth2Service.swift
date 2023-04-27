@@ -8,7 +8,7 @@ final class OAuth2Service {
     }
     
     private var lastCode: String?
-    private var currentTask: URLSessionTask?
+    private var currentTask: URLSessionDataTaskProtocol?
     
     func fetchAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -37,9 +37,9 @@ final class OAuth2Service {
         let url = URL(string: "https://unsplash.com/oauth/token")!
         var request = URLRequest(url: url)
         let params: [String: Any] = [
-            "client_id": Constants.accessKey,
-            "client_secret": Constants.secretKey,
-            "redirect_uri": Constants.redirectURI,
+            "client_id": AuthConfiguration.standard.accessKey,
+            "client_secret": AuthConfiguration.standard.secretKey,
+            "redirect_uri": AuthConfiguration.standard.redirectURI,
             "code": code,
             "grant_type": "authorization_code"
         ]

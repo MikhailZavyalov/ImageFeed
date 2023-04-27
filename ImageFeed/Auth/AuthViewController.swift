@@ -8,17 +8,28 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
     
+    @IBOutlet weak var authButton: UIButton!
+    
     weak var delegate: AuthViewControllerDelegate?
     
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        authButton.accessibilityIdentifier = AccessibilityIdentifiers.Auth.authButton
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
             guard
                 let webViewViewController = segue.destination as? WebViewViewController
-            else { assert(false)
-                assertionFailure("Failed to prepare for \(showWebViewSegueIdentifier)")
+            else {
+                fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")
             }
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewViewController.presenter = webViewPresenter
+            webViewPresenter.view = webViewViewController
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
