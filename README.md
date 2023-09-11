@@ -10,7 +10,7 @@
 
 ## **Ссылки**
 
-[Дизайн в Figma](https://www.figma.com/file/l0IMG3Eys35fUrbvArtwsR/YP-Quiz?node-id=34%3A243
+[Дизайн в Figma](https://www.figma.com/file/HyDfKh5UVPOhPZIhBqIm3q/Image-Feed-(YP)?type=design&node-id=334-4892&mode=design&t=yYDPNrJvOPCn8HnZ-0)
 
 [Unsplash API](https://www.figma.com/file/l0IMG3Eys35fUrbvArtwsR/YP-Quiz?node-id=34%3A243](https://unsplash.com/documentation))
 
