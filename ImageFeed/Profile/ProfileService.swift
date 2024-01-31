@@ -1,14 +1,13 @@
 
 import UIKit
 
-
 final class ProfileService {
     
     static let shared = ProfileService()
     private(set) var currentProfile: Profile?
     
     private var lastProfileCode: String?
-    private var getProfileTask: URLSessionTask?
+    private var getProfileTask: URLSessionDataTaskProtocol?
     
     private enum GetProfileError: Error {
         case profileCodeError
@@ -61,5 +60,3 @@ final class ProfileService {
         return request
     }
 }
-
-

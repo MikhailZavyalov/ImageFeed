@@ -4,10 +4,9 @@ import UIKit
 final class ProfileImageService {
     static let shared = ProfileImageService()
     private (set) var avatarURL: URL?
-    private var getProfileImageTask: URLSessionTask?
+    private var getProfileImageTask: URLSessionDataTaskProtocol?
     private var lastProfileImageCode: String?
     let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
-    
     
     private enum GetProfileImageError: Error {
         case profileImageCodeError
